@@ -5,6 +5,7 @@ package jun;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.net.Socket;
 
 /**
@@ -18,10 +19,12 @@ public class ServerThread extends Thread {
     }
     public void run(){
         try {
-            String message = null;
+            int c;
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-            while((message = bufferedReader.readLine())!= null){
-                System.out.println("incoming client message:" + message);
+            PrintWriter out = new PrintWriter(socket.getOutputStream(),true);
+            while ((c =bufferedReader.read())!=-1){
+                System.out.printf("%c", (char) c);
+                out.printf("%c", (char) c);
             }
         }catch (IOException e){
             e.printStackTrace();
